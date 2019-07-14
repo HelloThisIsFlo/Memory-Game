@@ -3,7 +3,7 @@
 # Edit at https://www.gitignore.io/?templates=node
 
 ### Webpack ###
-dist
+dist/main.js
 
 ### Node ###
 # Logs
