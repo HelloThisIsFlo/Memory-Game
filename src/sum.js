@@ -1,3 +1,7 @@
-export function sum(a, b) {
+function doSum(a, b) {
   return a + b;
 }
+
+module.exports = {
+  doSum: doSum
+};
