@@ -7,5 +7,9 @@ module.exports = {
     filename: 'main.js',
     path: path.resolve(__dirname, 'dist')
   },
-  mode: 'none'
+  mode: 'none',
+  devServer: {
+    contentBase: './dist',
+    watchContentBase: true
+  }
 }
