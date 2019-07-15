@@ -120,31 +120,58 @@ describe("Play a Card", () => {
     });
   });
 
-  describe("First Card", () => {
-    it("returns first card", () => {
-      const { card1: playedCard } = game.playCard(1, 3);
-      expect(playedCard.icon).toBe("f");
+  describe("First Move", () => {
+    describe("First Card", () => {
+      it("returns first card", () => {
+        const { card1: playedCard } = game.playCard(1, 3);
+        expect(playedCard.icon).toBe("f");
+      });
+      it("sets parameters depending on second card to null", () => {
+        const { card2: secondPlayedCard, success: isSuccess } = game.playCard(
+          1,
+          3
+        );
+        expect(secondPlayedCard).toBe(null);
+        expect(isSuccess).toBe(null);
+      });
     });
-    it("sets parameters depending on second card to null", () => {
-      const { card2: secondPlayedCard, success: isSuccess } = game.playCard(
-        1,
-        3
-      );
-      expect(secondPlayedCard).toBe(null);
-      expect(isSuccess).toBe(null);
-    });
-  });
-  describe("Second Card", () => {
-    beforeEach(() => {
-      const { card1: firstPlayedCard } = game.playCard(2, 3);
-      expect(firstPlayedCard.icon).toBe("g");
-    });
+    describe("Second Card", () => {
+      beforeEach(() => {
+        const { card1: firstPlayedCard } = game.playCard(2, 3);
+        expect(firstPlayedCard.icon).toBe("g");
+      });
 
-    // it("returns success when second card has same icon as the first", () => {
-    //   const { success: isSuccess } = game.playCard(2, 2);
-    //   expect(isSuccess).toBeTruthy();
-    // });
+      it("returns success when second card has same icon as the first", () => {
+        const { success: isSuccess } = game.playCard(2, 1);
+        expect(isSuccess).toBeTruthy();
+      });
+      it("returns failure when second card has not the same icon as the first", () => {
+        const { success: isSuccess } = game.playCard(0, 0);
+        expect(isSuccess).toBeFalsy();
+      });
+      it("returns both card played", () => {
+        const result = game.playCard(1, 1);
+        expect(result.card1).toEqual({ x: 2, y: 3, icon: "g" });
+        expect(result.card2).toEqual({ x: 1, y: 1, icon: "f" });
+      });
+      it.todo("throws when playing the 1st card again");
+    });
   });
+
+  describe("Full Game", () => {
+    it.todo("increments the movesCounter after each full move");
+    it.todo("sets 'isGameFinished' to 'true' on the last move");
+    it.todo("throws when trying to play a card already revealed");
+    describe("Rating", () => {
+      /**
+       * TODO: Implement some scenario with the rating
+       *       Offer the option to set the threshold as option when building
+       *       the game.
+       **/
+    });
+  });
+
+  it.todo("throws when a card already successfully revealed");
 });
 
 it("debug", () => {

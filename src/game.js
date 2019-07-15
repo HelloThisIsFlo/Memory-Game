@@ -8,7 +8,12 @@ function MemoryGame(icons) {
     }
   }
   function newBoard(icons) {
-    // TODO: Move the board creation logic to a different module & set the board via `setBoard()`
+    /**
+     *  TODO: Move the board creation logic to a different module & set the board via `setBoard()`
+     *        Orrrrrrrrrr . . . pass a `BoardBuilder` as a dependency of `MemoryGame`, along with
+     *        the list of icons and delegate the random behavior to it. Then, in the tests, simply
+     *        mock the behavior of the `BoardBuilder` to inject our `mockBoard`
+     */
     function emptyBoard() {
       const board = new Array(4);
       for (let i = 0; i < 4; i++) {
@@ -41,10 +46,32 @@ function MemoryGame(icons) {
   icons = removeDuplicates(icons);
   ensureEnoughIcons(icons);
   this.board = newBoard(icons);
+  this.firstCardOfCurrent2CardsMove = null;
 
   // Private Functions
   const getCard = (x, y) => {
     return { x: x, y: y, icon: this.board[y][x] };
+  };
+  const playFirstMove = (x, y) => {
+    this.firstCardOfCurrent2CardsMove = getCard(x, y);
+    return {
+      card1: this.firstCardOfCurrent2CardsMove,
+      card2: null,
+      success: null
+    };
+  };
+  const playSecondMove = (x, y) => {
+    // this.firstCardOfCurrent2CardsMove = null
+
+    const firstCard = this.firstCardOfCurrent2CardsMove;
+    const secondCard = getCard(x, y);
+    const sucess = secondCard.icon === this.firstCardOfCurrent2CardsMove.icon;
+
+    return {
+      card1: firstCard,
+      card2: secondCard,
+      success: sucess
+    };
   };
 
   // Public functions
@@ -55,13 +82,15 @@ function MemoryGame(icons) {
         throw "Invalid coordinates: Coordinates are out of the board!";
       }
     }
+
     validateCoordinates();
 
-    return {
-      card1: getCard(x, y),
-      card2: null,
-      success: null
-    };
+    const isFirstMove = this.firstCardOfCurrent2CardsMove === null;
+    if (isFirstMove) {
+      return playFirstMove(x, y);
+    } else {
+      return playSecondMove(x, y);
+    }
   };
 
   this.setBoard = function(board) {
