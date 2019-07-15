@@ -97,8 +97,15 @@ describe("Set board", () => {
 
 describe("Play a Card", () => {
   let game;
+  const mockBoard = [
+    ["a", "b", "c", "d"],
+    ["e", "f", "g", "h"],
+    ["a", "b", "c", "d"],
+    ["e", "f", "g", "h"]
+  ];
   beforeEach(() => {
     game = new MemoryGame(mockIcons);
+    game.setBoard(mockBoard);
   });
 
   it("raises error when coordinates out of board", () => {
@@ -113,14 +120,31 @@ describe("Play a Card", () => {
     });
   });
 
-  // describe.skip("First Card", () => {
-  //   it("returns first card", () => {
-  //     const { card1: playedCard } = game.playCard(2, 4);
-  //   });
-  // });
-  // describe("Second Card", () => {
-  //   it.todo("asdfs");
-  // });
+  describe("First Card", () => {
+    it("returns first card", () => {
+      const { card1: playedCard } = game.playCard(1, 3);
+      expect(playedCard.icon).toBe("f");
+    });
+    it("sets parameters depending on second card to null", () => {
+      const { card2: secondPlayedCard, success: isSuccess } = game.playCard(
+        1,
+        3
+      );
+      expect(secondPlayedCard).toBe(null);
+      expect(isSuccess).toBe(null);
+    });
+  });
+  describe("Second Card", () => {
+    beforeEach(() => {
+      const { card1: firstPlayedCard } = game.playCard(2, 3);
+      expect(firstPlayedCard.icon).toBe("g");
+    });
+
+    // it("returns success when second card has same icon as the first", () => {
+    //   const { success: isSuccess } = game.playCard(2, 2);
+    //   expect(isSuccess).toBeTruthy();
+    // });
+  });
 });
 
 it("debug", () => {

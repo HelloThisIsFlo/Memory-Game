@@ -44,7 +44,7 @@ function MemoryGame(icons) {
 
   // Private Functions
   const getCard = (x, y) => {
-    return { x: x, y: y, icon: this.board[x][y] };
+    return { x: x, y: y, icon: this.board[y][x] };
   };
 
   // Public functions
@@ -58,7 +58,9 @@ function MemoryGame(icons) {
     validateCoordinates();
 
     return {
-      card1: getCard(x, y)
+      card1: getCard(x, y),
+      card2: null,
+      success: null
     };
   };
 
