@@ -49,14 +49,11 @@ function MemoryGame(icons) {
   // Public functions
   this.playCard = function(x, y) {
     return {
-      card1: getCard(1, 1)
+      card1: getCard(x, y)
     };
   };
 }
 
-function card(x, y, icon) {
-  return { x, y, icon };
-}
 
 /*
 const template = {
