@@ -55,6 +55,14 @@ MemoryGame.prototype.playCard = function(x, y) {
     };
   };
   const playSecondMove = (x, y) => {
+    const ensureNotSameAsFirst = () => {
+      const first = this.firstCardOfCurrent2CardsMove;
+      if (x === first.x && y === first.y) {
+        throw "Invalid Move: Can not play the same card twice";
+      }
+    };
+
+    ensureNotSameAsFirst()
     const firstCard = this.firstCardOfCurrent2CardsMove;
     const secondCard = this.getCard(x, y);
     const sucess = secondCard.icon === this.firstCardOfCurrent2CardsMove.icon;

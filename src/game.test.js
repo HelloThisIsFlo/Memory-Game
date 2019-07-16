@@ -32,7 +32,6 @@ describe("When creating a new game", () => {
 
     const { card1: cardAt11 } = game.playCard(1, 1);
     expect(cardAt11.icon).toBe("f");
-    
   });
 });
 
@@ -94,7 +93,11 @@ describe("Play a Card", () => {
         expect(result.card1).toEqual({ x: 2, y: 3, icon: "g" });
         expect(result.card2).toEqual({ x: 1, y: 1, icon: "f" });
       });
-      it.todo("throws when playing the 1st card again");
+      it("throws when playing the 1st card again", () => {
+        expect(() => {
+          game.playCard(2, 3);
+        }).toThrow(/Can not play the same card twice/);
+      });
     });
   });
 
