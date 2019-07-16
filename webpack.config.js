@@ -1,7 +1,7 @@
 const path = require("path");
 
 module.exports = {
-  entry: "./src/index.js",
+  entry: "./src/view.js",
   output: {
     filename: "main.js",
     path: path.resolve(__dirname, "dist")
@@ -9,6 +9,7 @@ module.exports = {
   mode: "development",
   devServer: {
     contentBase: "./dist",
-    watchContentBase: true
+    watchContentBase: true,
+    host: "0.0.0.0"
   }
 };
