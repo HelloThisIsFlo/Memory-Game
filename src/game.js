@@ -1,21 +1,21 @@
-function MemoryGame(board) {
-  const validateBoard = board => {
+function MemoryGame(iconBoard) {
+  const validateIconBoard = () => {
     const ensureValidDimensions = () => {
       const throwError = () => {
         throw "Invalid dimensions. The board must be 4x4";
       };
-      if (board.length !== 4) {
+      if (iconBoard.length !== 4) {
         throwError();
       }
       for (let i = 0; i < 4; i++) {
-        if (board[i].length !== 4) {
+        if (iconBoard[i].length !== 4) {
           throwError();
         }
       }
     };
     const ensureContains8PairsOfIcons = () => {
       const allIcons = [];
-      for (row of board) {
+      for (row of iconBoard) {
         for (icon of row) {
           allIcons.push(icon);
         }
@@ -30,42 +30,68 @@ function MemoryGame(board) {
 
     ensureValidDimensions();
     ensureContains8PairsOfIcons();
-    return board;
+  };
+  const initializeGameBoard = () => {
+    const mapToGameCell = icon => ({ icon, revealed: false });
+    const gameBoard = [];
+
+    for (iconRow of iconBoard) {
+      gameRow = iconRow.map(mapToGameCell);
+      gameBoard.push(gameRow);
+    }
+
+    return gameBoard;
   };
 
-  this.board = validateBoard(board);
+  validateIconBoard();
+  this.board = initializeGameBoard();
   this.firstCardOfCurrent2CardsMove = null;
 }
-MemoryGame.prototype.getCard = function(x, y) {
-  return { x: x, y: y, icon: this.board[y][x] };
-};
+
 MemoryGame.prototype.playCard = function(x, y) {
   const validateCoordinates = () => {
-    const isValid = coordinate => coordinate >= 0 && coordinate < 4;
-    if (!isValid(x) || !isValid(y)) {
+    const isOutOfBoard = coordinate => coordinate < 0 || coordinate >= 4;
+    if (isOutOfBoard(x) || isOutOfBoard(y)) {
       throw "Invalid coordinates: Coordinates are out of the board!";
     }
   };
-  playFirstMove = (x, y) => {
-    this.firstCardOfCurrent2CardsMove = this.getCard(x, y);
+  const getCard = () => {
+    const cell = this.board[y][x];
+    return { x: x, y: y, icon: cell.icon, revealed: cell.revealed };
+  };
+  const ensureCardNotAlreadyRevealed = () => {
+    if (card.revealed) {
+      throw "Invalid coordinates: Card already revealed";
+    }
+  };
+  const playFirstMove = card => {
+    this.firstCardOfCurrent2CardsMove = card;
     return {
       card1: this.firstCardOfCurrent2CardsMove,
       card2: null,
       success: null
     };
   };
-  const playSecondMove = (x, y) => {
+  const playSecondMove = card => {
     const ensureNotSameAsFirst = () => {
       const first = this.firstCardOfCurrent2CardsMove;
       if (x === first.x && y === first.y) {
         throw "Invalid Move: Can not play the same card twice";
       }
     };
+    const setRevealed = card => {
+      this.board[card.y][card.x].revealed = true;
+    };
 
-    ensureNotSameAsFirst()
+    ensureNotSameAsFirst();
     const firstCard = this.firstCardOfCurrent2CardsMove;
-    const secondCard = this.getCard(x, y);
+    const secondCard = card;
     const sucess = secondCard.icon === this.firstCardOfCurrent2CardsMove.icon;
+
+    if (sucess) {
+      setRevealed(firstCard);
+      setRevealed(secondCard);
+    }
 
     return {
       card1: firstCard,
@@ -75,12 +101,13 @@ MemoryGame.prototype.playCard = function(x, y) {
   };
 
   validateCoordinates();
+  const card = getCard(x, y);
+  ensureCardNotAlreadyRevealed();
   const isFirstMove = this.firstCardOfCurrent2CardsMove === null;
   if (isFirstMove) {
-    const res = playFirstMove(x, y);
-    return res;
+    return playFirstMove(card);
   } else {
-    return playSecondMove(x, y);
+    return playSecondMove(card);
   }
 };
 

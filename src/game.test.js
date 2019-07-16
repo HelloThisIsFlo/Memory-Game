@@ -1,4 +1,7 @@
 const { MemoryGame } = require("./game");
+const _ = require('lodash');
+const objectContaining = expect.objectContaining;
+
 
 describe("When creating a new game", () => {
   it("ensures the board contains 8 pair of icons", () => {
@@ -90,8 +93,8 @@ describe("Play a Card", () => {
       });
       it("returns both card played", () => {
         const result = game.playCard(1, 1);
-        expect(result.card1).toEqual({ x: 2, y: 3, icon: "g" });
-        expect(result.card2).toEqual({ x: 1, y: 1, icon: "f" });
+        expect(result.card1).toEqual(objectContaining({ x: 2, y: 3, icon: "g" }));
+        expect(result.card2).toEqual(objectContaining({ x: 1, y: 1, icon: "f" }));
       });
       it("throws when playing the 1st card again", () => {
         expect(() => {
@@ -101,10 +104,37 @@ describe("Play a Card", () => {
     });
   });
 
+
   describe("Full Game", () => {
+    let game;
+    const mockBoard = [
+      ["a", "b", "c", "d"],
+      ["e", "f", "g", "h"],
+      ["a", "b", "c", "d"],
+      ["e", "f", "g", "h"]
+    ];
+
+    beforeEach(() => {
+      game = new MemoryGame(mockBoard);
+    });
+
+    it("throws when trying to play a card already revealed", () => {
+      // First successful pair
+      game.playCard(0, 0); // a
+      game.playCard(0, 2); // a
+
+      // Some unsuccessful try
+      game.playCard(3, 1); // h
+      game.playCard(1, 1); // f
+
+      // Trying to play card already discovered
+      expect(() => {
+        game.playCard(0, 2);
+      }).toThrow('Card already revealed')
+    });
+
     it.todo("increments the movesCounter after each full move");
     it.todo("sets 'isGameFinished' to 'true' on the last move");
-    it.todo("throws when trying to play a card already revealed");
     describe("Rating", () => {
       /**
        * TODO: Implement some scenario with the rating
@@ -123,6 +153,16 @@ it("debug", () => {
   const someArray = [1, 2, 3, 4];
   const duplicatedArray = [...someArray, ...someArray];
   expect(duplicatedArray).toEqual([1, 2, 3, 4, 1, 2, 3, 4]);
+
+  const someGrid = [
+    [1, 2, 3],
+    [4, 5, 6],
+    [7, 8, 9],
+  ]
+  const clonedGrid = _.cloneDeep(someGrid)
+  expect(clonedGrid).toEqual(someGrid)
+  someGrid[1][2] = 'a'
+  expect(clonedGrid).not.toEqual(someGrid)
 
   // console.log(someArray.sort(() => (0.5 - Math.random())));
   // console.log(someArray);
