@@ -32,6 +32,7 @@ describe("When creating a new game", () => {
 
     const { card1: cardAt11 } = game.playCard(1, 1);
     expect(cardAt11.icon).toBe("f");
+    
   });
 });
 
