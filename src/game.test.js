@@ -1,7 +1,6 @@
 const { MemoryGame } = require("./game");
-const _ = require('lodash');
+const _ = require("lodash");
 const objectContaining = expect.objectContaining;
-
 
 describe("When creating a new game", () => {
   it("ensures the board contains 8 pair of icons", () => {
@@ -93,8 +92,12 @@ describe("Play a Card", () => {
       });
       it("returns both card played", () => {
         const result = game.playCard(1, 1);
-        expect(result.card1).toEqual(objectContaining({ x: 2, y: 3, icon: "g" }));
-        expect(result.card2).toEqual(objectContaining({ x: 1, y: 1, icon: "f" }));
+        expect(result.card1).toEqual(
+          objectContaining({ x: 2, y: 3, icon: "g" })
+        );
+        expect(result.card2).toEqual(
+          objectContaining({ x: 1, y: 1, icon: "f" })
+        );
       });
       it("throws when playing the 1st card again", () => {
         expect(() => {
@@ -103,7 +106,6 @@ describe("Play a Card", () => {
       });
     });
   });
-
 
   describe("Full Game", () => {
     let game;
@@ -130,11 +132,71 @@ describe("Play a Card", () => {
       // Trying to play card already discovered
       expect(() => {
         game.playCard(0, 2);
-      }).toThrow('Card already revealed')
+      }).toThrow("Card already revealed");
+    });
+
+    describe("End of Game", () => {
+      beforeEach(() => {
+        const playAllMovesExceptLastOne = () => {
+          // Success - 'a'
+          game.playCard(0, 2);
+          game.playCard(0, 0);
+
+          // Some unsuccessful try
+          game.playCard(3, 1); // h
+          game.playCard(1, 1); // f
+
+          // Success - 'b'
+          game.playCard(1, 2);
+          game.playCard(1, 0);
+
+          // Success - 'c'
+          game.playCard(2, 2);
+          game.playCard(2, 0);
+
+          // Success - 'd'
+          game.playCard(3, 2);
+          game.playCard(3, 0);
+
+          // Success - 'e'
+          game.playCard(0, 3);
+          game.playCard(0, 1);
+
+          // Success - 'f'
+          game.playCard(1, 3);
+          game.playCard(1, 1);
+
+          // Success - 'g'
+          game.playCard(2, 3);
+          game.playCard(2, 1);
+        };
+
+        playAllMovesExceptLastOne();
+      });
+
+      it("sets 'isGameFinished' to 'true' on the last move", () => {
+        // Success - 'h' - Move 1
+        const resultAfterFinalPairMove1 = game.playCard(3, 3);
+        const resultAfterFinalPairMove2 = game.playCard(3, 1);
+
+        expect(resultAfterFinalPairMove1.isGameFinished).toBe(false);
+        expect(resultAfterFinalPairMove2.isGameFinished).toBe(true);
+      });
+
+      it("throws if trying to play a card after the game is finished", () => {
+        const finishGame = () => {
+          game.playCard(3, 3);
+          game.playCard(3, 1);
+        };
+
+        finishGame();
+        expect(() => {
+          game.playCard(3, 3);
+        }).toThrow("game is finished");
+      });
     });
 
     it.todo("increments the movesCounter after each full move");
-    it.todo("sets 'isGameFinished' to 'true' on the last move");
     describe("Rating", () => {
       /**
        * TODO: Implement some scenario with the rating
@@ -143,8 +205,6 @@ describe("Play a Card", () => {
        **/
     });
   });
-
-  it.todo("throws when a card already successfully revealed");
 });
 
 it("debug", () => {
@@ -154,16 +214,9 @@ it("debug", () => {
   const duplicatedArray = [...someArray, ...someArray];
   expect(duplicatedArray).toEqual([1, 2, 3, 4, 1, 2, 3, 4]);
 
-  const someGrid = [
-    [1, 2, 3],
-    [4, 5, 6],
-    [7, 8, 9],
-  ]
-  const clonedGrid = _.cloneDeep(someGrid)
-  expect(clonedGrid).toEqual(someGrid)
-  someGrid[1][2] = 'a'
-  expect(clonedGrid).not.toEqual(someGrid)
-
-  // console.log(someArray.sort(() => (0.5 - Math.random())));
-  // console.log(someArray);
+  const someGrid = [[1, 2, 3], [4, 5, 6], [7, 8, 9]];
+  const clonedGrid = _.cloneDeep(someGrid);
+  expect(clonedGrid).toEqual(someGrid);
+  someGrid[1][2] = "a";
+  expect(clonedGrid).not.toEqual(someGrid);
 });
