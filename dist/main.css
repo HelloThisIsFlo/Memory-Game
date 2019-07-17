@@ -1,0 +1,58 @@
+@import url(https://weloveiconfonts.com/api/?family=zocial);
+
+main {
+  width: 100%;
+}
+
+#title {
+  font-variant: small-caps;
+  text-align: center;
+}
+
+.game {
+  display: grid;
+  width: 500px;
+  /* border: 1px solid red; */
+  margin: auto;
+  padding: 10px;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 10px;
+}
+
+.game__cell {
+  height: 150px;
+  background-color: black;
+  border: 1px grey solid;
+  line-height: 150px;
+  overflow: hidden;
+}
+
+.game__cell.revealed {
+  background-color: white;
+}
+
+.game__cell.success {
+  background-color: lime;
+  color: white;
+}
+
+.game__cell.failure {
+  background-color: red;
+  color: white;
+}
+
+.game__cell p {
+  margin: 0;
+  font-size: 5em;
+  font-family: "zocial";
+  text-align: center;
+}
+
+#reset {
+  display: block;
+  margin: 40px auto 20px auto;
+}
+
+#debug {
+  text-align: center;
+}
