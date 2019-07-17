@@ -28,6 +28,8 @@ main {
   font-family: "zocial";
   text-align: center;
   overflow: hidden;
+  -moz-user-select: none; /* Firefox */
+  user-select: none;
 }
 
 .game__card.revealed {
@@ -43,7 +45,6 @@ main {
   background-color: red;
   color: white;
 }
-
 
 #reset {
   display: block;
