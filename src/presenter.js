@@ -17,6 +17,7 @@ function Presenter(view, icons) {
   const displayFirstCard = firstCard => {
     this.view.revealCard(firstCard);
   };
+
   const displaySecondCardAndResult = (firstCard, secondCard, wasSuccessful) => {
     this.view.revealCard(secondCard);
     if (wasSuccessful) {
@@ -25,10 +26,8 @@ function Presenter(view, icons) {
       this.view.flashFailureAndHide(firstCard, secondCard);
     }
   };
-  this.onCardClick = (x, y) => {
-    const isFirstCardPicked = () => secondCard === null;
 
-    console.log(`Card clicked: (${x}, ${y})`);
+  this.onCardClick = (x, y) => {
     const {
       card1: firstCard,
       card2: secondCard,
@@ -36,13 +35,13 @@ function Presenter(view, icons) {
       isGameFinished: gameIsFinished
     } = this.game.playCard(x, y);
 
-    if (isFirstCardPicked()) {
+    const isFirstCardPicked = secondCard === null;
+    if (isFirstCardPicked) {
       displayFirstCard(firstCard);
     } else {
       displaySecondCardAndResult(firstCard, secondCard, wasSuccessful);
     }
 
-    console.log("gameIsFinished :", gameIsFinished);
     if (gameIsFinished) {
       this.view.showResults();
     }

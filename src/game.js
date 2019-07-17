@@ -50,11 +50,24 @@ function MemoryGame(iconBoard) {
 }
 
 MemoryGame.prototype.playCard = function(x, y) {
+  /**
+   * Response Template:
+   *
+   * {
+   *   card1: { x, y, icon },
+   *   card2: { x, y, icon },
+   *   success: true,
+   *   isGameFinished: false,
+   *   movesCounter: 13,
+   *   rating: 2
+   * };
+   */
+
   const ensureGameNotFinished = () => {
     if (this.finished) {
-      throw "Invalid Move: Can not play after game is finished"
+      throw "Invalid Move: Can not play after game is finished";
     }
-  }
+  };
   const validateCoordinates = () => {
     const isOutOfBoard = coordinate => coordinate < 0 || coordinate >= 4;
     if (isOutOfBoard(x) || isOutOfBoard(y)) {
@@ -122,7 +135,7 @@ MemoryGame.prototype.playCard = function(x, y) {
     };
   };
 
-  ensureGameNotFinished()
+  ensureGameNotFinished();
   validateCoordinates();
   const card = getCard(x, y);
   ensureCardNotAlreadyRevealed();
@@ -180,16 +193,5 @@ function BoardBuilder() {
     }
   };
 }
-
-/*
-const template = {
-  card1: { x, y, icon },
-  card2: { x, y, icon },
-  success: true,
-  isGameFinished: false,
-  movesCounter: 13,
-  rating: 2
-};
-*/
 
 module.exports = { MemoryGame, BoardBuilder };

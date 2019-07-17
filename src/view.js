@@ -32,23 +32,27 @@ function View({ flashDuration: flashDuration = 2000 }) {
   };
 
   this.revealCard = ({ x: x, y: y, icon: icon }) => {
-    const card = getCardDiv(x, y);
-    card.textContent = icon;
-    card.classList.add("revealed");
+    const cardDiv = getCardDiv(x, y);
+    cardDiv.textContent = icon;
+    cardDiv.classList.add("revealed");
   };
 
   this.hideCard = ({ x: x, y: y }) => {
-    const card = getCardDiv(x, y);
-    card.textContent = "";
-    card.classList.remove("revealed");
+    const cardDiv = getCardDiv(x, y);
+    cardDiv.textContent = "";
+    cardDiv.classList.remove("revealed");
   };
 
   this.resetAllCards = () => {
-    for (let x = 0; x < 4; x++) {
-      for (let y = 0; y < 4; y++) {
-        this.hideCard({ x: x, y: y });
+    const hideAllCards = () => {
+      for (let x = 0; x < 4; x++) {
+        for (let y = 0; y < 4; y++) {
+          this.hideCard({ x: x, y: y });
+        }
       }
-    }
+    };
+
+    hideAllCards();
     resetDebugText();
   };
 
@@ -66,7 +70,6 @@ function View({ flashDuration: flashDuration = 2000 }) {
 
   this.showResults = () => {
     showDebugText("Game is Finished!");
-    console.log('Showing Results');
   };
 }
 
