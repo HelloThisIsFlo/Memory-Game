@@ -11,7 +11,7 @@ function View({ flashDuration: flashDuration = 2000 }) {
   this.flashDuration = flashDuration;
 
   const getCardDiv = (x, y) => {
-    return document.getElementById(`cell-${x}_${y}`);
+    return document.getElementById(`card-${x}_${y}`);
   };
 
   const flashCard = (card, cssClass) => {
@@ -24,15 +24,13 @@ function View({ flashDuration: flashDuration = 2000 }) {
 
   this.revealCard = ({ x: x, y: y, icon: icon }) => {
     const card = getCardDiv(x, y);
-    const paragaph = document.createElement("p");
-    paragaph.textContent = icon;
-    card.appendChild(paragaph);
+    card.textContent = icon;
     card.classList.add("revealed");
   };
 
   this.hideCard = ({ x: x, y: y }) => {
     const card = getCardDiv(x, y);
-    card.removeChild(card.firstChild);
+    card.textContent = '';
     card.classList.remove("revealed");
   };
 

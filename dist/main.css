@@ -9,7 +9,7 @@ main {
   text-align: center;
 }
 
-.game {
+#game {
   display: grid;
   width: 500px;
   /* border: 1px solid red; */
@@ -19,34 +19,31 @@ main {
   grid-gap: 10px;
 }
 
-.game__cell {
+.game__card {
   height: 150px;
   background-color: black;
   border: 1px grey solid;
   line-height: 150px;
+  font-size: 4em;
+  font-family: "zocial";
+  text-align: center;
   overflow: hidden;
 }
 
-.game__cell.revealed {
+.game__card.revealed {
   background-color: white;
 }
 
-.game__cell.success {
+.game__card.success {
   background-color: lime;
   color: white;
 }
 
-.game__cell.failure {
+.game__card.failure {
   background-color: red;
   color: white;
 }
 
-.game__cell p {
-  margin: 0;
-  font-size: 5em;
-  font-family: "zocial";
-  text-align: center;
-}
 
 #reset {
   display: block;
