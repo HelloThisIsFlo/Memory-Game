@@ -2,9 +2,9 @@ const debugElement = document.querySelector("#debug");
 
 function showDebugText(text) {
   if (debugElement.innerHTML === "") {
-    debug.innerHTML = text;
+    debugElement.innerHTML = text;
   } else {
-    debug.innerHTML += "<br/>" + text;
+    debugElement.innerHTML += "<br/>" + text;
   }
 }
 function resetDebugText() {
@@ -66,6 +66,7 @@ function View({ flashDuration: flashDuration = 2000 }) {
 
   this.showResults = () => {
     showDebugText("Game is Finished!");
+    console.log('Showing Results');
   };
 }
 

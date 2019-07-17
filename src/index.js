@@ -49,7 +49,8 @@ function debug() {
 
   // view.revealCard(card1);
   // view.flashSuccess(card1, card2);
-  view.flashFailureAndHide(card1, card2);
+  // view.flashFailureAndHide(card1, card2);
+  view.showResults()
 }
 
 window.debug = debug;
