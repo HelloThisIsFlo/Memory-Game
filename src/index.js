@@ -14,14 +14,17 @@ const setupClickListeners = () => {
     const isGameCard = element => {
       return element.classList.contains("game__card");
     };
+    const isRevealed = cardDiv => {
+      return cardDiv.classList.contains('revealed')
+    }
     const extractCoordinatesFromId = card => {
       return card.id.split("-")[1].split("_");
     };
 
     const gameDiv = document.getElementById("game");
     gameDiv.addEventListener("click", e => {
-      // ! Should we check if target is indeed a HTMLElement?
-      if (isGameCard(e.target)) {
+      // Should we check if target is indeed a HTMLElement?
+      if (isGameCard(e.target) && !isRevealed(e.target)) {
         const card = e.target;
         const [x, y] = extractCoordinatesFromId(card);
         presenter.onCardClick(x, y);
@@ -44,9 +47,9 @@ function debug() {
   const card1 = { x: 1, y: 3, icon: "S" };
   const card2 = { x: 2, y: 0, icon: "A" };
 
-  view.revealCard(card1);
+  // view.revealCard(card1);
   // view.flashSuccess(card1, card2);
-  view.flashFailure(card1, card2);
+  view.flashFailureAndHide(card1, card2);
 }
 
 window.debug = debug;
