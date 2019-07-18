@@ -33,13 +33,15 @@ function View({ flashDuration: flashDuration = 2000 }) {
 
   this.revealCard = ({ x: x, y: y, icon: icon }) => {
     const cardDiv = getCardDiv(x, y);
-    cardDiv.textContent = icon;
+    const iconDiv = document.createElement('i')
+    iconDiv.classList.add('fas', 'fa-' + icon)
+    cardDiv.appendChild(iconDiv)
     cardDiv.classList.add("revealed");
   };
 
   this.hideCard = ({ x: x, y: y }) => {
     const cardDiv = getCardDiv(x, y);
-    cardDiv.textContent = "";
+    cardDiv.firstChild.remove()
     cardDiv.classList.remove("revealed");
   };
 

@@ -1,9 +1,20 @@
 const { View } = require("./view");
 const { Presenter } = require("./presenter");
 
+const  icons= [
+  'battery-half',
+  'archway',
+  'ambulance',
+  'atlas',
+  'asterisk',
+  'bomb',
+  'bug',
+  'brush',
+  'bolt'
+];
 const config = {
   flashDuration: 800,
-  icons: ["a", "b", "c", "d", "e", "f", "g", "h", "i"],
+  icons: icons,
   ratingThreshold: {
     twoStars: 4,
     oneStar: 10
@@ -48,14 +59,17 @@ const setupClickListeners = () => {
 setupClickListeners();
 
 function debug() {
-  const card1 = { x: 1, y: 3, icon: "S" };
-  const card2 = { x: 2, y: 0, icon: "A" };
+  const card1 = { x: 1, y: 3, icon: "battery-half" };
+  const card2 = { x: 2, y: 0, icon: "bread-slice" };
 
   // view.revealCard(card1);
   // view.flashSuccess(card1, card2);
   // view.flashFailureAndHide(card1, card2);
-  view.showResults();
-  view.updateMovesCount(23423);
+  // view.updateMovesCount(23423);
+  view.revealCard(card1);
+  setTimeout(() => {
+    view.hideCard(card1);
+  }, 1000);
 }
 
 window.debug = debug;
