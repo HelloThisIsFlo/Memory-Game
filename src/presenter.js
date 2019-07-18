@@ -5,15 +5,8 @@ function Presenter(view, icons, ratingThreshold) {
   this.icons = icons;
   const boardBuilder = new BoardBuilder();
   const board = boardBuilder.buildFromIcons(icons);
-  console.log(
-    "board :\n",
-    JSON.stringify(board)
-      .split("],")
-      .join("],\n  ")
-      .replace(/"/g, " ")
-  );
-  const rater = new Rater(ratingThreshold.twoStars, ratingThreshold.oneStar)
-  this.game = new MemoryGame(board, rater);
+  this.rater = new Rater(ratingThreshold.twoStars, ratingThreshold.oneStar)
+  this.game = new MemoryGame(board, this.rater);
 
   const displayFirstCard = firstCard => {
     this.view.revealCard(firstCard);
@@ -67,7 +60,7 @@ function Presenter(view, icons, ratingThreshold) {
   this.onReset = () => {
     const resetGame = () => {
       const newBoard = boardBuilder.buildFromIcons(this.icons);
-      this.game = new MemoryGame(newBoard);
+      this.game = new MemoryGame(newBoard, this.rater);
     };
 
     console.log("Resetting the game");

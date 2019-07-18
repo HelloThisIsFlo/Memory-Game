@@ -41,7 +41,8 @@ function View({ flashDuration: flashDuration = 2000 }) {
 
   this.hideCard = ({ x: x, y: y }) => {
     const cardDiv = getCardDiv(x, y);
-    cardDiv.firstChild.remove()
+    const iconDiv = cardDiv.firstChild;
+    iconDiv && iconDiv.remove()
     cardDiv.classList.remove("revealed");
   };
 
