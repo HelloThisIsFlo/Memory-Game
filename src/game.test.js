@@ -135,6 +135,38 @@ describe("Play a Card", () => {
       }).toThrow("Card already revealed");
     });
 
+    it("updates the moves count for each full move", () => {
+      const { movesCount: count1a } = game.playCard(0, 0);
+      const { movesCount: count1b } = game.playCard(0, 2);
+
+      const { movesCount: count2a } = game.playCard(3, 1);
+      const { movesCount: count2b } = game.playCard(1, 1);
+
+      expect(count1a).toBe(0);
+      expect(count1b).toBe(1);
+      expect(count2a).toBe(1);
+      expect(count2b).toBe(2);
+    });
+
+    it("doesn't update moves count on error", () => {
+      game.playCard(0, 0);
+      game.playCard(0, 2);
+      game.playCard(3, 1);
+
+      // Some errors in between
+      try {
+        // Card already played
+        game.playCard(0, 0);
+      } catch (error) {}
+      try {
+        // Out of bound
+        game.playCard(-1, 50);
+      } catch (error) {}
+
+      const { movesCount: count } = game.playCard(1, 1);
+      expect(count).toBe(2)
+    });
+
     describe("End of Game", () => {
       beforeEach(() => {
         const playAllMovesExceptLastOne = () => {
@@ -196,7 +228,6 @@ describe("Play a Card", () => {
       });
     });
 
-    it.todo("increments the movesCounter after each full move");
     describe("Rating", () => {
       /**
        * TODO: Implement some scenario with the rating

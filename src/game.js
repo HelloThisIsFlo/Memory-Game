@@ -47,6 +47,7 @@ function MemoryGame(iconBoard) {
   this.board = initializeGameBoard();
   this.finished = false;
   this.firstCardOfCurrent2CardsMove = null;
+  this.movesCount = 0;
 }
 
 MemoryGame.prototype.playCard = function(x, y) {
@@ -89,7 +90,8 @@ MemoryGame.prototype.playCard = function(x, y) {
       card1: this.firstCardOfCurrent2CardsMove,
       card2: null,
       success: null,
-      isGameFinished: false
+      isGameFinished: false,
+      movesCount: this.movesCount
     };
   };
   const playSecondMove = card => {
@@ -127,11 +129,13 @@ MemoryGame.prototype.playCard = function(x, y) {
     }
 
     this.firstCardOfCurrent2CardsMove = null;
+    this.movesCount++;
     return {
       card1: firstCard,
       card2: secondCard,
       success: sucess,
-      isGameFinished: this.finished
+      isGameFinished: this.finished,
+      movesCount: this.movesCount
     };
   };
 
