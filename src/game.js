@@ -1,4 +1,4 @@
-function MemoryGame(iconBoard) {
+function MemoryGame(iconBoard, rater) {
   const validateIconBoard = () => {
     const ensureValidDimensions = () => {
       const throwError = () => {
@@ -43,6 +43,7 @@ function MemoryGame(iconBoard) {
     return gameBoard;
   };
 
+  this.rater = rater;
   validateIconBoard();
   this.board = initializeGameBoard();
   this.finished = false;
@@ -91,7 +92,8 @@ MemoryGame.prototype.playCard = function(x, y) {
       card2: null,
       success: null,
       isGameFinished: false,
-      movesCount: this.movesCount
+      movesCount: this.movesCount,
+      rating: this.rater.rateMovesCount(this.movesCount)
     };
   };
   const playSecondMove = card => {
@@ -135,7 +137,8 @@ MemoryGame.prototype.playCard = function(x, y) {
       card2: secondCard,
       success: sucess,
       isGameFinished: this.finished,
-      movesCount: this.movesCount
+      movesCount: this.movesCount,
+      rating: this.rater.rateMovesCount(this.movesCount)
     };
   };
 

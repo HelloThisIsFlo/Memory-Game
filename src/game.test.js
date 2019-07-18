@@ -2,112 +2,54 @@ const { MemoryGame } = require("./game");
 const _ = require("lodash");
 const objectContaining = expect.objectContaining;
 
-describe("When creating a new game", () => {
-  it("ensures the board contains 8 pair of icons", () => {
-    expect(() => {
-      new MemoryGame([
-        ["a", "b", "c", "d"],
-        ["e", "f", "g", "h"],
-        ["a", "b", "c", "d"],
-        ["e", "f", "g", "missingSecondH"]
-      ]);
-    }).toThrow(/must contain 8 pairs of icons/);
-  });
+describe("Game", () => {
+  const mockRater = {
+    rateMovesCount: jest.fn()
+  };
 
-  it("ensures the board is 4x4", () => {
-    expect(() => {
-      new MemoryGame([
-        ["a", "b", "c", "d"],
-        ["a", "b", "c", "d"],
-        ["e", "f", "g", "h"]
-      ]);
-    }).toThrow(/must be 4x4/);
-  });
-
-  it("sets the board when valid", () => {
-    const game = new MemoryGame([
-      ["a", "b", "c", "d"],
-      ["e", "f", "g", "h"],
-      ["a", "b", "c", "d"],
-      ["e", "f", "g", "h"]
-    ]);
-
-    const { card1: cardAt11 } = game.playCard(1, 1);
-    expect(cardAt11.icon).toBe("f");
-  });
-});
-
-describe("Play a Card", () => {
-  let game;
-  const mockBoard = [
-    ["a", "b", "c", "d"],
-    ["e", "f", "g", "h"],
-    ["a", "b", "c", "d"],
-    ["e", "f", "g", "h"]
-  ];
   beforeEach(() => {
-    game = new MemoryGame(mockBoard);
+    mockRater.rateMovesCount.mockReset();
   });
 
-  it("raises error when coordinates out of board", () => {
-    // Valid coordinates: 0-3
-    [
-      () => game.playCard(4, 2),
-      () => game.playCard(-1, 3),
-      () => game.playCard(2, -1),
-      () => game.playCard(2, 4)
-    ].forEach(playCardWithInvalidCoordinate => {
-      expect(playCardWithInvalidCoordinate).toThrow(/out of the board/);
+  describe("When creating a new game", () => {
+    it("ensures the board contains 8 pair of icons", () => {
+      expect(() => {
+        new MemoryGame([
+          ["a", "b", "c", "d"],
+          ["e", "f", "g", "h"],
+          ["a", "b", "c", "d"],
+          ["e", "f", "g", "missingSecondH"]
+        ]);
+      }).toThrow(/must contain 8 pairs of icons/);
+    });
+
+    it("ensures the board is 4x4", () => {
+      expect(() => {
+        new MemoryGame([
+          ["a", "b", "c", "d"],
+          ["a", "b", "c", "d"],
+          ["e", "f", "g", "h"]
+        ]);
+      }).toThrow(/must be 4x4/);
+    });
+
+    it("sets the board when valid", () => {
+      const game = new MemoryGame(
+        [
+          ["a", "b", "c", "d"],
+          ["e", "f", "g", "h"],
+          ["a", "b", "c", "d"],
+          ["e", "f", "g", "h"]
+        ],
+        mockRater
+      );
+
+      const { card1: cardAt11 } = game.playCard(1, 1);
+      expect(cardAt11.icon).toBe("f");
     });
   });
 
-  describe("First Move", () => {
-    describe("First Card", () => {
-      it("returns first card", () => {
-        const { card1: playedCard } = game.playCard(1, 3);
-        expect(playedCard.icon).toBe("f");
-      });
-      it("sets parameters depending on second card to null", () => {
-        const { card2: secondPlayedCard, success: isSuccess } = game.playCard(
-          1,
-          3
-        );
-        expect(secondPlayedCard).toBe(null);
-        expect(isSuccess).toBe(null);
-      });
-    });
-    describe("Second Card", () => {
-      beforeEach(() => {
-        const { card1: firstPlayedCard } = game.playCard(2, 3);
-        expect(firstPlayedCard.icon).toBe("g");
-      });
-
-      it("returns success when second card has same icon as the first", () => {
-        const { success: isSuccess } = game.playCard(2, 1);
-        expect(isSuccess).toBeTruthy();
-      });
-      it("returns failure when second card has not the same icon as the first", () => {
-        const { success: isSuccess } = game.playCard(0, 0);
-        expect(isSuccess).toBeFalsy();
-      });
-      it("returns both card played", () => {
-        const result = game.playCard(1, 1);
-        expect(result.card1).toEqual(
-          objectContaining({ x: 2, y: 3, icon: "g" })
-        );
-        expect(result.card2).toEqual(
-          objectContaining({ x: 1, y: 1, icon: "f" })
-        );
-      });
-      it("throws when playing the 1st card again", () => {
-        expect(() => {
-          game.playCard(2, 3);
-        }).toThrow(/Can not play the same card twice/);
-      });
-    });
-  });
-
-  describe("Full Game", () => {
+  describe("Play a Card", () => {
     let game;
     const mockBoard = [
       ["a", "b", "c", "d"],
@@ -115,125 +57,209 @@ describe("Play a Card", () => {
       ["a", "b", "c", "d"],
       ["e", "f", "g", "h"]
     ];
-
     beforeEach(() => {
-      game = new MemoryGame(mockBoard);
+      game = new MemoryGame(mockBoard, mockRater);
     });
 
-    it("throws when trying to play a card already revealed", () => {
-      // First successful pair
-      game.playCard(0, 0); // a
-      game.playCard(0, 2); // a
-
-      // Some unsuccessful try
-      game.playCard(3, 1); // h
-      game.playCard(1, 1); // f
-
-      // Trying to play card already discovered
-      expect(() => {
-        game.playCard(0, 2);
-      }).toThrow("Card already revealed");
+    it("raises error when coordinates out of board", () => {
+      // Valid coordinates: 0-3
+      [
+        () => game.playCard(4, 2),
+        () => game.playCard(-1, 3),
+        () => game.playCard(2, -1),
+        () => game.playCard(2, 4)
+      ].forEach(playCardWithInvalidCoordinate => {
+        expect(playCardWithInvalidCoordinate).toThrow(/out of the board/);
+      });
     });
 
-    it("updates the moves count for each full move", () => {
-      const { movesCount: count1a } = game.playCard(0, 0);
-      const { movesCount: count1b } = game.playCard(0, 2);
+    it("returns the rating sent by the Rater", () => {
+      mockRater.rateMovesCount
+        .mockReturnValueOnce(2222)
+        .mockReturnValueOnce(3333);
 
-      const { movesCount: count2a } = game.playCard(3, 1);
-      const { movesCount: count2b } = game.playCard(1, 1);
+      const { rating: rating1 } = game.playCard(0, 2);
+      const { rating: rating2 } = game.playCard(0, 0);
 
-      expect(count1a).toBe(0);
-      expect(count1b).toBe(1);
-      expect(count2a).toBe(1);
-      expect(count2b).toBe(2);
+      expect(mockRater.rateMovesCount).toHaveBeenCalledTimes(2);
+      expect(rating1).toBe(2222);
+      expect(rating2).toBe(3333);
     });
 
-    it("doesn't update moves count on error", () => {
-      game.playCard(0, 0);
-      game.playCard(0, 2);
-      game.playCard(3, 1);
+    describe("First Move", () => {
+      describe("First Card", () => {
+        it("returns first card", () => {
+          const { card1: playedCard } = game.playCard(1, 3);
+          expect(playedCard.icon).toBe("f");
+        });
+        it("sets parameters depending on second card to null", () => {
+          const { card2: secondPlayedCard, success: isSuccess } = game.playCard(
+            1,
+            3
+          );
+          expect(secondPlayedCard).toBe(null);
+          expect(isSuccess).toBe(null);
+        });
+      });
+      describe("Second Card", () => {
+        beforeEach(() => {
+          const { card1: firstPlayedCard } = game.playCard(2, 3);
+          expect(firstPlayedCard.icon).toBe("g");
+        });
 
-      // Some errors in between
-      try {
-        // Card already played
-        game.playCard(0, 0);
-      } catch (error) {}
-      try {
-        // Out of bound
-        game.playCard(-1, 50);
-      } catch (error) {}
-
-      const { movesCount: count } = game.playCard(1, 1);
-      expect(count).toBe(2)
+        it("returns success when second card has same icon as the first", () => {
+          const { success: isSuccess } = game.playCard(2, 1);
+          expect(isSuccess).toBeTruthy();
+        });
+        it("returns failure when second card has not the same icon as the first", () => {
+          const { success: isSuccess } = game.playCard(0, 0);
+          expect(isSuccess).toBeFalsy();
+        });
+        it("returns both card played", () => {
+          const result = game.playCard(1, 1);
+          expect(result.card1).toEqual(
+            objectContaining({ x: 2, y: 3, icon: "g" })
+          );
+          expect(result.card2).toEqual(
+            objectContaining({ x: 1, y: 1, icon: "f" })
+          );
+        });
+        it("throws when playing the 1st card again", () => {
+          expect(() => {
+            game.playCard(2, 3);
+          }).toThrow(/Can not play the same card twice/);
+        });
+      });
     });
 
-    describe("End of Game", () => {
+    describe("Full Game", () => {
+      let game;
+      const mockBoard = [
+        ["a", "b", "c", "d"],
+        ["e", "f", "g", "h"],
+        ["a", "b", "c", "d"],
+        ["e", "f", "g", "h"]
+      ];
+
       beforeEach(() => {
-        const playAllMovesExceptLastOne = () => {
-          // Success - 'a'
-          game.playCard(0, 2);
-          game.playCard(0, 0);
-
-          // Some unsuccessful try
-          game.playCard(3, 1); // h
-          game.playCard(1, 1); // f
-
-          // Success - 'b'
-          game.playCard(1, 2);
-          game.playCard(1, 0);
-
-          // Success - 'c'
-          game.playCard(2, 2);
-          game.playCard(2, 0);
-
-          // Success - 'd'
-          game.playCard(3, 2);
-          game.playCard(3, 0);
-
-          // Success - 'e'
-          game.playCard(0, 3);
-          game.playCard(0, 1);
-
-          // Success - 'f'
-          game.playCard(1, 3);
-          game.playCard(1, 1);
-
-          // Success - 'g'
-          game.playCard(2, 3);
-          game.playCard(2, 1);
-        };
-
-        playAllMovesExceptLastOne();
+        game = new MemoryGame(mockBoard, mockRater);
       });
 
-      it("sets 'isGameFinished' to 'true' on the last move", () => {
-        // Success - 'h' - Move 1
-        const resultAfterFinalPairMove1 = game.playCard(3, 3);
-        const resultAfterFinalPairMove2 = game.playCard(3, 1);
+      it("throws when trying to play a card already revealed", () => {
+        // First successful pair
+        game.playCard(0, 0); // a
+        game.playCard(0, 2); // a
 
-        expect(resultAfterFinalPairMove1.isGameFinished).toBe(false);
-        expect(resultAfterFinalPairMove2.isGameFinished).toBe(true);
-      });
+        // Some unsuccessful try
+        game.playCard(3, 1); // h
+        game.playCard(1, 1); // f
 
-      it("throws if trying to play a card after the game is finished", () => {
-        const finishGame = () => {
-          game.playCard(3, 3);
-          game.playCard(3, 1);
-        };
-
-        finishGame();
+        // Trying to play card already discovered
         expect(() => {
-          game.playCard(3, 3);
-        }).toThrow("game is finished");
+          game.playCard(0, 2);
+        }).toThrow("Card already revealed");
       });
-    });
 
-    describe("Rating", () => {
-      /**
-       * TODO: Implement some scenario with the rating
-       *       Offer the option to set the threshold as option when building
-       *       the game.
-       **/
+      it("updates the moves count for each full move", () => {
+        const { movesCount: count1a } = game.playCard(0, 0);
+        const { movesCount: count1b } = game.playCard(0, 2);
+
+        const { movesCount: count2a } = game.playCard(3, 1);
+        const { movesCount: count2b } = game.playCard(1, 1);
+
+        expect(count1a).toBe(0);
+        expect(count1b).toBe(1);
+        expect(count2a).toBe(1);
+        expect(count2b).toBe(2);
+      });
+
+      it("doesn't update moves count on error", () => {
+        game.playCard(0, 0);
+        game.playCard(0, 2);
+        game.playCard(3, 1);
+
+        // Some errors in between
+        try {
+          // Card already played
+          game.playCard(0, 0);
+        } catch (error) {}
+        try {
+          // Out of bound
+          game.playCard(-1, 50);
+        } catch (error) {}
+
+        const { movesCount: count } = game.playCard(1, 1);
+        expect(count).toBe(2);
+      });
+
+      describe("End of Game", () => {
+        beforeEach(() => {
+          const playAllMovesExceptLastOne = () => {
+            // Success - 'a'
+            game.playCard(0, 2);
+            game.playCard(0, 0);
+
+            // Some unsuccessful try
+            game.playCard(3, 1); // h
+            game.playCard(1, 1); // f
+
+            // Success - 'b'
+            game.playCard(1, 2);
+            game.playCard(1, 0);
+
+            // Success - 'c'
+            game.playCard(2, 2);
+            game.playCard(2, 0);
+
+            // Success - 'd'
+            game.playCard(3, 2);
+            game.playCard(3, 0);
+
+            // Success - 'e'
+            game.playCard(0, 3);
+            game.playCard(0, 1);
+
+            // Success - 'f'
+            game.playCard(1, 3);
+            game.playCard(1, 1);
+
+            // Success - 'g'
+            game.playCard(2, 3);
+            game.playCard(2, 1);
+          };
+
+          playAllMovesExceptLastOne();
+        });
+
+        it("sets 'isGameFinished' to 'true' on the last move", () => {
+          // Success - 'h' - Move 1
+          const resultAfterFinalPairMove1 = game.playCard(3, 3);
+          const resultAfterFinalPairMove2 = game.playCard(3, 1);
+
+          expect(resultAfterFinalPairMove1.isGameFinished).toBe(false);
+          expect(resultAfterFinalPairMove2.isGameFinished).toBe(true);
+        });
+
+        it("throws if trying to play a card after the game is finished", () => {
+          const finishGame = () => {
+            game.playCard(3, 3);
+            game.playCard(3, 1);
+          };
+
+          finishGame();
+          expect(() => {
+            game.playCard(3, 3);
+          }).toThrow("game is finished");
+        });
+      });
+
+      describe("Rating", () => {
+        /**
+         * TODO: Implement some scenario with the rating
+         *       Offer the option to set the threshold as option when building
+         *       the game.
+         **/
+      });
     });
   });
 });
