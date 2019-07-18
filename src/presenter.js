@@ -1,6 +1,6 @@
-const { MemoryGame, BoardBuilder } = require("./game");
+const { MemoryGame, BoardBuilder, Rater } = require("./game");
 
-function Presenter(view, icons) {
+function Presenter(view, icons, ratingThreshold) {
   this.view = view;
   this.icons = icons;
   const boardBuilder = new BoardBuilder();
@@ -12,14 +12,22 @@ function Presenter(view, icons) {
       .join("],\n  ")
       .replace(/"/g, " ")
   );
-  this.game = new MemoryGame(board);
+  const rater = new Rater(ratingThreshold.twoStars, ratingThreshold.oneStar)
+  this.game = new MemoryGame(board, rater);
 
   const displayFirstCard = firstCard => {
     this.view.revealCard(firstCard);
   };
 
-  const displaySecondCardAndResult = (firstCard, secondCard, wasSuccessful, movesCount) => {
+  const displaySecondCardAndResult = (
+    firstCard,
+    secondCard,
+    wasSuccessful,
+    movesCount,
+    rating
+  ) => {
     this.view.updateMovesCount(movesCount);
+    this.view.updateRating(rating);
     this.view.revealCard(secondCard);
     if (wasSuccessful) {
       this.view.flashSuccess(firstCard, secondCard);
@@ -34,14 +42,21 @@ function Presenter(view, icons) {
       card2: secondCard,
       success: wasSuccessful,
       isGameFinished: gameIsFinished,
-      movesCount: movesCount
+      movesCount: movesCount,
+      rating: rating
     } = this.game.playCard(x, y);
 
     const isFirstCardPicked = secondCard === null;
     if (isFirstCardPicked) {
       displayFirstCard(firstCard);
     } else {
-      displaySecondCardAndResult(firstCard, secondCard, wasSuccessful, movesCount);
+      displaySecondCardAndResult(
+        firstCard,
+        secondCard,
+        wasSuccessful,
+        movesCount,
+        rating
+      );
     }
 
     if (gameIsFinished) {

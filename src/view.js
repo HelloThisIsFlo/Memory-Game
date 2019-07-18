@@ -69,9 +69,14 @@ function View({ flashDuration: flashDuration = 2000 }) {
   };
 
   this.updateMovesCount = count => {
-    const movesCountDiv = document.getElementById('moves-count')
-    movesCountDiv.textContent = count
-  }
+    const movesCountDiv = document.getElementById("moves-count");
+    movesCountDiv.textContent = count;
+  };
+
+  this.updateRating = rating => {
+    const ratingDiv = document.getElementById("rating");
+    ratingDiv.textContent = rating;
+  };
 
   this.showResults = () => {
     showDebugText("Game is Finished!");
