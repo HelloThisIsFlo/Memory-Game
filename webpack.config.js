@@ -10,6 +10,10 @@ module.exports = {
   devServer: {
     contentBase: "./dist",
     watchContentBase: true,
-    host: "0.0.0.0"
+    host: "0.0.0.0",
+    port: 1234,
+    allowedHosts: [
+      'sandbox.floriankempenich.com'
+    ]
   }
 };
