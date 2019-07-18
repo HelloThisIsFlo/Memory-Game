@@ -51,6 +51,7 @@ function debug() {
   // view.flashSuccess(card1, card2);
   // view.flashFailureAndHide(card1, card2);
   view.showResults()
+  view.updateMovesCount(23423)
 }
 
 window.debug = debug;

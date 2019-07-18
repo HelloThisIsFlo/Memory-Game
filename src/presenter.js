@@ -18,7 +18,8 @@ function Presenter(view, icons) {
     this.view.revealCard(firstCard);
   };
 
-  const displaySecondCardAndResult = (firstCard, secondCard, wasSuccessful) => {
+  const displaySecondCardAndResult = (firstCard, secondCard, wasSuccessful, movesCount) => {
+    this.view.updateMovesCount(movesCount);
     this.view.revealCard(secondCard);
     if (wasSuccessful) {
       this.view.flashSuccess(firstCard, secondCard);
@@ -32,14 +33,15 @@ function Presenter(view, icons) {
       card1: firstCard,
       card2: secondCard,
       success: wasSuccessful,
-      isGameFinished: gameIsFinished
+      isGameFinished: gameIsFinished,
+      movesCount: movesCount
     } = this.game.playCard(x, y);
 
     const isFirstCardPicked = secondCard === null;
     if (isFirstCardPicked) {
       displayFirstCard(firstCard);
     } else {
-      displaySecondCardAndResult(firstCard, secondCard, wasSuccessful);
+      displaySecondCardAndResult(firstCard, secondCard, wasSuccessful, movesCount);
     }
 
     if (gameIsFinished) {
@@ -55,6 +57,7 @@ function Presenter(view, icons) {
 
     console.log("Resetting the game");
     this.view.resetAllCards();
+    this.view.updateMovesCount(0);
     resetGame();
   };
 }

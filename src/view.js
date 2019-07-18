@@ -68,6 +68,11 @@ function View({ flashDuration: flashDuration = 2000 }) {
     hideAfterFlash(card2);
   };
 
+  this.updateMovesCount = count => {
+    const movesCountDiv = document.getElementById('moves-count')
+    movesCountDiv.textContent = count
+  }
+
   this.showResults = () => {
     showDebugText("Game is Finished!");
   };
