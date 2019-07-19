@@ -66,6 +66,7 @@ function Presenter(view, icons, ratingThreshold) {
     console.log("Resetting the game");
     this.view.resetAllCards();
     this.view.updateMovesCount(0);
+    this.view.updateRating(3);
     resetGame();
   };
 }

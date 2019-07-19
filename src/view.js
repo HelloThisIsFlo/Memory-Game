@@ -72,13 +72,22 @@ function View({ flashDuration: flashDuration = 2000 }) {
   };
 
   this.updateMovesCount = count => {
-    const movesCountDiv = document.getElementById("moves-count");
+    const movesCountDiv = document.getElementById("moves-count__counter");
     movesCountDiv.textContent = count;
   };
 
   this.updateRating = rating => {
     const ratingDiv = document.getElementById("rating");
-    ratingDiv.textContent = rating;
+
+    console.log('ratingDiv.childNodes :', ratingDiv.children);
+    for (let i = 0; i < rating; i++) {
+      ratingDiv.children[i].classList.remove('far')
+      ratingDiv.children[i].classList.add('fas')
+    }
+    for (let i = rating; i < 3; i++) {
+      ratingDiv.children[i].classList.remove('fas')
+      ratingDiv.children[i].classList.add('far')
+    }
   };
 
   this.showResults = () => {

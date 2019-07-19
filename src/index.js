@@ -1,16 +1,16 @@
 const { View } = require("./view");
 const { Presenter } = require("./presenter");
 
-const  icons= [
-  'battery-half',
-  'archway',
-  'ambulance',
-  'atlas',
-  'asterisk',
-  'bomb',
-  'bug',
-  'brush',
-  'bolt'
+const icons = [
+  "battery-half",
+  "archway",
+  "ambulance",
+  "atlas",
+  "asterisk",
+  "bomb",
+  "bug",
+  "brush",
+  "bolt"
 ];
 const config = {
   flashDuration: 800,
@@ -67,9 +67,19 @@ function debug() {
   // view.flashFailureAndHide(card1, card2);
   // view.updateMovesCount(23423);
   view.revealCard(card1);
-  setTimeout(() => {
-    view.hideCard(card1);
-  }, 1000);
+  // setTimeout(() => {
+  //   view.hideCard(card1);
+  // }, 1000);
 }
 
 window.debug = debug;
+window.enableAutoDebug = () => {
+  localStorage.setItem("runDebug", true);
+};
+window.disableAutoDebug = () => {
+  localStorage.setItem("runDebug", false);
+};
+
+if (localStorage.getItem("runDebug") === "true") {
+  debug();
+}
