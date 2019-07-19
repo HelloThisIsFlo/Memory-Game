@@ -79,7 +79,6 @@ function View({ flashDuration: flashDuration = 2000 }) {
   this.updateRating = rating => {
     const ratingDiv = document.getElementById("rating");
 
-    console.log('ratingDiv.childNodes :', ratingDiv.children);
     for (let i = 0; i < rating; i++) {
       ratingDiv.children[i].classList.remove('far')
       ratingDiv.children[i].classList.add('fas')

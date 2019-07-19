@@ -5,8 +5,18 @@ function Presenter(view, icons, ratingThreshold) {
   this.icons = icons;
   const boardBuilder = new BoardBuilder();
   const board = boardBuilder.buildFromIcons(icons);
-  this.rater = new Rater(ratingThreshold.twoStars, ratingThreshold.oneStar)
+  this.rater = new Rater(ratingThreshold.twoStars, ratingThreshold.oneStar);
   this.game = new MemoryGame(board, this.rater);
+
+  const logBoard = true;
+  if (logBoard) {
+    console.log(
+      "Board:\n" +
+        JSON.stringify(board)
+          .split("],")
+          .join("],\n")
+    );
+  }
 
   const displayFirstCard = firstCard => {
     this.view.revealCard(firstCard);

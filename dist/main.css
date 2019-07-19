@@ -17,10 +17,6 @@ body {
   overflow: auto;
   width: 100%;
 }
-[class='fas'] {
-  border: 1px red solid;
-}
-
 
 h1,
 h3 {
@@ -101,10 +97,6 @@ header .moves-count {
   box-shadow: 5px 5px 20px -3px #2a3d4a;
 }
 
-.game__card * {
-  /* border:  1px solid red; */
-}
-
 .game__card.revealed {
   background-color: #00d0ba;
   box-shadow: 5px 5px 20px -3px #2a3d4a88;
@@ -112,12 +104,54 @@ header .moves-count {
 
 .game__card.success {
   color: white;
-  background-color: lime;
+  animation: pop 0.4s ease-out 0s 1 normal both;
+}
+
+@keyframes pop {
+  0% {
+    background-color: #00d0ba;
+    transform: scale3d(1, 1, 1);
+  }
+  25% {
+    background-color: #1ae29b;
+    transform: scale3d(1.05, 1.05, 1.05);
+  }
+  75% {
+    background-color: #1ae29b;
+    transform: scale3d(1.05, 1.05, 1.05);
+  }
+
+  100% {
+    background-color: #00d0ba;
+    transform: scale3d(1, 1, 1);
+  }
 }
 
 .game__card.failure {
   color: white;
-  background-color: red;
+  background-color: #e24958;
+  animation: shake 0.3s ease-out 0s 1 normal;
+}
+@keyframes shake {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+
+  25% {
+    transform: translate3d(-10px, 0, 0);
+  }
+
+  50% {
+    transform: translate3d(10px, 0, 0);
+  }
+
+  75% {
+    transform: translate3d(-10px, 0, 0);
+  }
+
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
 }
 
 #debug {
