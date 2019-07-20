@@ -104,7 +104,7 @@ header .moves-count {
 
 .game__card.success {
   color: white;
-  animation: pop 0.4s ease-out 0s 1 normal both;
+  animation: pop 0.3s ease-in-out 0s 1 normal both;
 }
 
 @keyframes pop {
@@ -112,7 +112,7 @@ header .moves-count {
     background-color: #00d0ba;
     transform: scale3d(1, 1, 1);
   }
-  25% {
+  50% {
     background-color: #1ae29b;
     transform: scale3d(1.05, 1.05, 1.05);
   }
