@@ -1,5 +1,6 @@
 const { View } = require("./view");
 const { Presenter } = require("./presenter");
+const { alphaPctToHex } = require("./tools");
 
 const icons = [
   "battery-half",
@@ -72,6 +73,7 @@ function debug() {
   // }, 1000);
 }
 
+window.alphaPctToHex = alphaPctToHex;
 window.debug = debug;
 window.enableAutoDebug = () => {
   localStorage.setItem("runDebug", true);
