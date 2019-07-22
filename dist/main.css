@@ -1,169 +1,241 @@
+@keyframes pop {
+  0% {
+    transform: scale3d(1, 1, 1);
+  }
+  50% {
+    background-color: #1ae29b;
+    transform: scale3d(1.05, 1.05, 1.05);
+  }
+  75% {
+    background-color: #1ae29b;
+    transform: scale3d(1.05, 1.05, 1.05);
+  }
 
+  100% {
+    transform: scale3d(1, 1, 1);
+  }
+}
 
+@keyframes shake {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
 
+  25% {
+    transform: translate3d(-10px, 0, 0);
+  }
+
+  50% {
+    transform: translate3d(10px, 0, 0);
+  }
+
+  75% {
+    transform: translate3d(-10px, 0, 0);
+  }
+
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+body {
+  box-sizing: border-box;
+  height: 100vh;
+  margin: 0;
+  padding-top: 50px;
+  background: linear-gradient(-45deg, #b07cd2, #00cfba);
+  font-family: "Source Sans Pro", sans-serif;
+}
+
+#title {
+  display: none;
+}
+
+h1,
+h3 {
+  font-weight: 200;
+}
+
+main {
+  display: grid;
+  max-height: 100%;
+  margin-left: 20px;
+  margin-right: 20px;
+  grid-template: 50px 100vw 1fr / 1fr 1fr;
+}
+main > * {
+  display: block;
+}
+
+/*
+ * Header
+ */
+header {
+  display: flex;
+  width: 100%;
+  height: 50px;
+  color: white;
+  grid-column: 1/3;
+  align-items: center;
+  justify-content: center;
+}
+header h3 {
+  display: block;
+  width: 150px;
+  margin: 0;
+  cursor: none;
+}
+.moves-count {
+  margin-left: 20px;
+}
+#rating {
+  font-size: 0.8em;
+  cursor: none;
+}
+#reset {
+  padding: 20px;
+  cursor: pointer;
+}
+
+/*
+ * Game Board
+ */
+#game {
+  display: grid;
+  margin-bottom: 20px;
+  margin-top: 20px;
+  padding: 40px;
+  background: #3232321c;
+  border-radius: 10px;
+  grid-column: 1/3;
+  grid-template: repeat(4, 1fr) / repeat(4, 1fr);
+  grid-gap: 40px;
+}
+
+/*
+ * Cards
+ */
+.game__card {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  color: white;
+  background: #2a3d4a;
+  border-radius: 50%;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  transition: box-shadow 0.3s;
+}
+.revealed {
+  background-color: #00d0ba;
+  box-shadow: 5px 5px 20px -3px #2a3d4a88;
+}
+.revealed.success {
+  background-color: #00d0ba;
+}
+.revealed.failure {
+  background-color: #e24958;
+}
+
+/*
+ * Preview
+ */
+.preview {
+  display: flex;
+  margin-top: 50px;
+  grid-column: 1 / 3;
+  justify-content: space-around;
+}
+.preview__card {
+  width: 150px;
+  height: 150px;
+  color: white;
+  background: #3232321c;
+  border-radius: 12px;
+  user-select: none;
+}
+.revealed {
+  background-color: #00d0ba;
+  box-shadow: 5px 5px 20px -3px #2a3d4a88;
+}
+.preview__card.success {
+  animation: pop 0.3s ease-in-out 0s 1 normal both;
+}
+.preview__card.failure {
+  animation: shake 0.3s ease-out 0s 1 normal;
+}
+
+@media screen and (min-width: 450px) {
+  .preview .preview__card {
+    width: 180px;
+    height: 180px;
+    background: #3232321c;
+    border-radius: 12px;
+    -moz-user-select: none;
+    user-select: none; /* Firefox */
+  }
+}
 
 @media screen and (min-width: 500px) {
-  html,
   body {
-    margin: 0;
-    height: 100%;
-  }
-  body {
-    color: #2c404e;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    /* height: 100vh; */
-  }
-  .container {
-    padding-bottom: 100px;
-    max-height: 100vh;
-    overflow: auto;
-    width: 100%;
-  }
-
-  h1,
-  h3 {
-    font-family: "Source Sans Pro", sans-serif;
-    font-weight: 200;
-  }
-
-  main {
-    width: 100%;
+    background: white;
   }
 
   #title {
-    /* font-variant: small-caps; */
-    font-weight: 300;
+    display: block;
     text-align: center;
   }
 
+  header {
+    color: #2c404e;
+  }
+
+  main {
+    justify-items: center;
+    grid-template: 50px 1fr / 1fr 1fr;
+  }
+
   #game {
-    display: grid;
-    /* width: max-content; */
+    box-sizing: border-box;
     width: calc(150px * 4 + 30px * (3 + 2));
     height: calc(150px * 4 + 30px * (3 + 2));
     padding: 30px;
-    box-sizing: border-box;
-    margin: auto;
-    grid-template-columns: repeat(4, 150px);
-    grid-template-rows: repeat(4, 150px);
-    justify-content: center;
-    grid-gap: 30px;
-    border-radius: 12px;
     background: linear-gradient(-45deg, #b07cd2, #00cfba);
     box-shadow: 10px 10px 10px 0px #99a0ab;
+    grid-gap: 30px;
   }
 
-  header {
+  #game .game__card {
     display: flex;
-    width: 100%;
-    height: 50px;
-    align-items: center;
-
-    justify-content: center;
-  }
-  header h3,
-  header button {
-    display: block;
-    width: 150px;
-    margin: 0;
-  }
-  header .moves-count {
-    margin-left: 20px;
-  }
-
-  #rating {
-    font-size: 0.8em;
-  }
-  #reset {
-    padding: 20px;
-    cursor: pointer;
-  }
-
-  .game__card {
-    display: flex;
-    border-radius: 12px;
-    background-color: #2a3d4a;
-    color: white;
+    border-radius: 10px;
     font-size: 4em;
     text-align: center;
     cursor: pointer;
     overflow: hidden;
-    -moz-user-select: none; /* Firefox */
-    user-select: none;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    transition: box-shadow 0.3s;
   }
-  .game__card:hover {
+  #game .game__card:hover {
     box-shadow: 5px 5px 20px -3px #2a3d4a;
   }
-
-  .game__card.revealed {
-    background-color: #00d0ba;
-    box-shadow: 5px 5px 20px -3px #2a3d4a88;
-  }
-
   .game__card.success {
-    color: white;
     animation: pop 0.3s ease-in-out 0s 1 normal both;
   }
-
-  @keyframes pop {
-    0% {
-      background-color: #00d0ba;
-      transform: scale3d(1, 1, 1);
-    }
-    50% {
-      background-color: #1ae29b;
-      transform: scale3d(1.05, 1.05, 1.05);
-    }
-    75% {
-      background-color: #1ae29b;
-      transform: scale3d(1.05, 1.05, 1.05);
-    }
-
-    100% {
-      background-color: #00d0ba;
-      transform: scale3d(1, 1, 1);
-    }
-  }
-
   .game__card.failure {
-    color: white;
-    background-color: #e24958;
     animation: shake 0.3s ease-out 0s 1 normal;
   }
-  @keyframes shake {
-    0% {
-      transform: translate3d(0, 0, 0);
-    }
 
-    25% {
-      transform: translate3d(-10px, 0, 0);
-    }
-
-    50% {
-      transform: translate3d(10px, 0, 0);
-    }
-
-    75% {
-      transform: translate3d(-10px, 0, 0);
-    }
-
-    100% {
-      transform: translate3d(0, 0, 0);
-    }
+  .preview {
+    display: none;
   }
+}
 
-  #debug {
-    text-align: center;
-  }
+#debug {
+  text-align: center;
+}
 
-  #sandbox hr {
-    margin-top: 200px;
-  }
+#sandbox hr {
+  margin-top: 200px;
 }
