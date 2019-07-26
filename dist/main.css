@@ -127,16 +127,6 @@ header h3 {
   user-select: none;
   transition: box-shadow 0.3s;
 }
-.revealed {
-  background-color: #00d0ba;
-  box-shadow: 5px 5px 20px -3px #2a3d4a88;
-}
-.revealed.success {
-  background-color: #00d0ba;
-}
-.revealed.failure {
-  background-color: #e24958;
-}
 
 /*
  * Preview
@@ -168,6 +158,12 @@ header h3 {
 .revealed {
   background-color: #00d0ba;
   box-shadow: 5px 5px 20px -3px #2a3d4a88;
+}
+.revealed.success {
+  animation: pop 0.3s ease-in-out 0s 1 normal both;
+}
+.revealed.failure {
+  background-color: #e24958;
 }
 .preview__card.success {
   animation: pop 0.3s ease-in-out 0s 1 normal both;
@@ -226,10 +222,7 @@ header h3 {
   #game .game__card:hover {
     box-shadow: 5px 5px 20px -3px #2a3d4a;
   }
-  .game__card.success {
-    animation: pop 0.3s ease-in-out 0s 1 normal both;
-  }
-  .game__card.failure {
+  .revealed.failure {
     animation: shake 0.3s ease-out 0s 1 normal;
   }
 
