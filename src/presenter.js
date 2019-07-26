@@ -20,6 +20,7 @@ function Presenter(view, icons, ratingThreshold) {
 
   const displayFirstCard = firstCard => {
     this.view.revealCard(firstCard);
+    this.view.revealPreview1(firstCard.icon)
   };
 
   const displaySecondCardAndResult = (
@@ -32,6 +33,7 @@ function Presenter(view, icons, ratingThreshold) {
     this.view.updateMovesCount(movesCount);
     this.view.updateRating(rating);
     this.view.revealCard(secondCard);
+    this.view.revealPreview2(secondCard.icon)
     if (wasSuccessful) {
       this.view.flashSuccess(firstCard, secondCard);
     } else {

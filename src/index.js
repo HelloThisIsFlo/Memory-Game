@@ -14,7 +14,7 @@ const icons = [
   "bolt"
 ];
 const config = {
-  flashDuration: 500,
+  flashDuration: 1000,
   icons: icons,
   ratingThreshold: {
     twoStars: 4,
