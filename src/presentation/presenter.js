@@ -1,4 +1,6 @@
-const { MemoryGame, BoardBuilder, Rater } = require("../game/game");
+const { BoardBuilder } = require("../game/boardBuilder");
+const { Rater } = require("../game/rater");
+const { MemoryGame } = require("../game/game");
 
 function Presenter(view, icons, ratingThreshold) {
   this.view = view;
@@ -20,7 +22,7 @@ function Presenter(view, icons, ratingThreshold) {
 
   const displayFirstCard = firstCard => {
     this.view.revealCard(firstCard);
-    this.view.revealPreview1(firstCard.icon)
+    this.view.revealPreview1(firstCard.icon);
   };
 
   const displaySecondCardAndResult = (
@@ -33,7 +35,7 @@ function Presenter(view, icons, ratingThreshold) {
     this.view.updateMovesCount(movesCount);
     this.view.updateRating(rating);
     this.view.revealCard(secondCard);
-    this.view.revealPreview2(secondCard.icon)
+    this.view.revealPreview2(secondCard.icon);
     if (wasSuccessful) {
       this.view.flashSuccess(firstCard, secondCard);
     } else {
