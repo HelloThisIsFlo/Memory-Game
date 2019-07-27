@@ -42,7 +42,6 @@ body {
   box-sizing: border-box;
   height: 100vh;
   margin: 0;
-  padding-top: 50px;
   background: linear-gradient(-45deg, #b07cd2, #00cfba);
   font-family: "Source Sans Pro", sans-serif;
 }
@@ -135,13 +134,13 @@ header h3 {
  */
 .preview {
   display: flex;
-  margin-top: 50px;
+  margin-top: 30px;
   grid-column: 1 / 3;
   justify-content: space-around;
 }
 .preview__card {
-  width: 150px;
-  height: 150px;
+  width: 40vw;
+  height: 40vw;
   color: white;
   background: #3232321c;
   border-radius: 12px;
@@ -172,13 +171,6 @@ header h3 {
 }
 .preview__card.failure {
   animation: shake 0.3s ease-out 0s 1 normal;
-}
-
-@media screen and (min-width: 450px) {
-  .preview__card {
-    width: 180px;
-    height: 180px;
-  }
 }
 
 @media screen and (min-width: 500px) {
