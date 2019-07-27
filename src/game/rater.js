@@ -15,4 +15,4 @@ function Rater(twoStarsThreshold, oneStarThreshold) {
   };
 }
 
-module.exports = { Rater };
+module.exports = Rater;

@@ -1,5 +1,4 @@
-const { View } = require("./presentation/view");
-const { Presenter } = require("./presentation/presenter");
+const { View, Presenter } = require("./presentation");
 const { alphaPctToHex } = require("./developmentOnly/tools");
 
 const icons = [

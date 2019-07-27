@@ -149,4 +149,4 @@ function View({ flashDuration: flashDuration = 2000 }) {
   };
 }
 
-module.exports = { View };
+module.exports = View;

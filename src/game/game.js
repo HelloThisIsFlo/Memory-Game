@@ -154,4 +154,4 @@ MemoryGame.prototype.playCard = function(x, y) {
   }
 };
 
-module.exports = { MemoryGame };
+module.exports = MemoryGame;

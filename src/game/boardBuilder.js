@@ -45,4 +45,4 @@ function BoardBuilder() {
   };
 }
 
-module.exports = { BoardBuilder };
+module.exports = BoardBuilder;

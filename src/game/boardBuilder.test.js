@@ -1,4 +1,4 @@
-const { BoardBuilder } = require("./boardBuilder");
+const BoardBuilder = require("./boardBuilder");
 
 const mockIcons = [
   "icon1",

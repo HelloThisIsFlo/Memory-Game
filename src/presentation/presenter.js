@@ -1,6 +1,4 @@
-const { BoardBuilder } = require("../game/boardBuilder");
-const { Rater } = require("../game/rater");
-const { MemoryGame } = require("../game/game");
+const { MemoryGame, BoardBuilder, Rater } = require("../game");
 
 function Presenter(view, icons, ratingThreshold) {
   this.view = view;
@@ -85,4 +83,4 @@ function Presenter(view, icons, ratingThreshold) {
   };
 }
 
-module.exports = { Presenter };
+module.exports = Presenter;

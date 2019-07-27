@@ -1,4 +1,4 @@
-const { Rater } = require("./rater");
+const Rater = require("./rater");
 
 describe("Rater", () => {
   it("should ensure 2 stars threshold is lower than 1 star threshold", () => {

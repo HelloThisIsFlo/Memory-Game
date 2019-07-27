@@ -1,4 +1,4 @@
-const { MemoryGame } = require("./game");
+const MemoryGame = require("./game");
 const _ = require("lodash");
 const objectContaining = expect.objectContaining;
 
