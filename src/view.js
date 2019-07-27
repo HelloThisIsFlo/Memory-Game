@@ -16,7 +16,6 @@ function View({ flashDuration: flashDuration = 2000 }) {
 
   const isDesktopVersion = () => {
     const previewDiv = document.querySelector(".preview");
-    console.log(previewDiv);
     return window.getComputedStyle(previewDiv).display === 'none'
   };
 

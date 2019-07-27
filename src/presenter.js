@@ -8,7 +8,7 @@ function Presenter(view, icons, ratingThreshold) {
   this.rater = new Rater(ratingThreshold.twoStars, ratingThreshold.oneStar);
   this.game = new MemoryGame(board, this.rater);
 
-  const logBoard = true;
+  const logBoard = false;
   if (logBoard) {
     console.log(
       "Board:\n" +
