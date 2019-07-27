@@ -14,11 +14,6 @@ function resetDebugText() {
 function View({ flashDuration: flashDuration = 2000 }) {
   this.flashDuration = flashDuration;
 
-  const isDesktopVersion = () => {
-    const previewDiv = document.querySelector(".preview");
-    return window.getComputedStyle(previewDiv).display === 'none'
-  };
-
   const hideCardDiv = cardDiv => {
     const iconDiv = cardDiv.firstChild;
     iconDiv && iconDiv.remove();
@@ -72,7 +67,7 @@ function View({ flashDuration: flashDuration = 2000 }) {
 
   this.revealCard = ({ x: x, y: y, icon: icon }) => {
     const cardDiv = getCardDiv(x, y);
-    const showIcon = isDesktopVersion();
+    const showIcon = true;
     revealCardDiv(cardDiv, icon, showIcon);
   };
 
