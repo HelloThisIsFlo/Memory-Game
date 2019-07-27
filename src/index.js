@@ -17,8 +17,8 @@ const config = {
   flashDuration: 1000,
   icons: icons,
   ratingThreshold: {
-    twoStars: 4,
-    oneStar: 10
+    twoStars: 15,
+    oneStar: 20
   }
 };
 
