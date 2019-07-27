@@ -1,4 +1,4 @@
-const { MemoryGame, BoardBuilder, Rater } = require("./game");
+const { MemoryGame, BoardBuilder, Rater } = require("../game/game");
 
 function Presenter(view, icons, ratingThreshold) {
   this.view = view;

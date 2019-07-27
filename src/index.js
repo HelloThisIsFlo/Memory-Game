@@ -1,6 +1,6 @@
-const { View } = require("./view");
-const { Presenter } = require("./presenter");
-const { alphaPctToHex } = require("./tools");
+const { View } = require("./presentation/view");
+const { Presenter } = require("./presentation/presenter");
+const { alphaPctToHex } = require("./developmentOnly/tools");
 
 const icons = [
   "battery-half",
@@ -59,29 +59,31 @@ const setupClickListeners = () => {
 };
 setupClickListeners();
 
-function debug() {
-  const card1 = { x: 1, y: 3, icon: "battery-half" };
-  const card2 = { x: 2, y: 0, icon: "bread-slice" };
+(function developmentOnlyExperimentations() {
+  function debug() {
+    const card1 = { x: 1, y: 3, icon: "battery-half" };
+    const card2 = { x: 2, y: 0, icon: "bread-slice" };
 
-  // view.revealCard(card1);
-  // view.flashSuccess(card1, card2);
-  // view.flashFailureAndHide(card1, card2);
-  // view.updateMovesCount(23423);
-  view.revealCard(card1);
-  // setTimeout(() => {
-  //   view.hideCard(card1);
-  // }, 1000);
-}
+    // view.revealCard(card1);
+    // view.flashSuccess(card1, card2);
+    // view.flashFailureAndHide(card1, card2);
+    // view.updateMovesCount(23423);
+    view.revealCard(card1);
+    // setTimeout(() => {
+    //   view.hideCard(card1);
+    // }, 1000);
+  }
 
-window.alphaPctToHex = alphaPctToHex;
-window.debug = debug;
-window.enableAutoDebug = () => {
-  localStorage.setItem("runDebug", true);
-};
-window.disableAutoDebug = () => {
-  localStorage.setItem("runDebug", false);
-};
+  window.alphaPctToHex = alphaPctToHex;
+  window.debug = debug;
+  window.enableAutoDebug = () => {
+    localStorage.setItem("runDebug", true);
+  };
+  window.disableAutoDebug = () => {
+    localStorage.setItem("runDebug", false);
+  };
 
-if (localStorage.getItem("runDebug") === "true") {
-  debug();
-}
+  if (localStorage.getItem("runDebug") === "true") {
+    debug();
+  }
+})();
