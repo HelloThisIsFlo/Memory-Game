@@ -10,7 +10,7 @@ docker build -t ${IMG} .
 docker stop ${CONTAINER}
 docker run \
     --name ${CONTAINER} \
-    --rm \
+    --restart=always \
     -p ${PORT}:80 \
     -d \
     ${IMG}
