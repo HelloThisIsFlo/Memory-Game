@@ -6,7 +6,7 @@
   "scripts": {
     "test": "jest",
     "tdd": "jest --watch --verbose",
-    "build": "webpack",
+    "build": "webpack --config webpack.config.prod.js",
     "start": "webpack-dev-server --open"
   },
   "repository": {
@@ -21,11 +21,16 @@
   },
   "homepage": "https://github.com/FlorianKempenich/Memory-Game#readme",
   "devDependencies": {
+    "@babel/cli": "^7.5.5",
+    "@babel/core": "^7.5.5",
+    "@babel/preset-env": "^7.5.5",
     "@types/jest": "^24.0.15",
+    "babel-loader": "^8.0.6",
     "jest": "^24.8.0",
     "webpack": "^4.35.3",
     "webpack-cli": "^3.3.6",
-    "webpack-dev-server": "^3.7.2"
+    "webpack-dev-server": "^3.7.2",
+    "webpack-merge": "^4.2.1"
   },
   "dependencies": {
     "lodash": "^4.17.14"
