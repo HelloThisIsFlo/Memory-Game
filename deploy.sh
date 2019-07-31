@@ -8,6 +8,7 @@ PORT=7000
 yarn build
 docker build -t ${IMG} .
 docker stop ${CONTAINER}
+docker rm ${CONTAINER}
 docker run \
     --name ${CONTAINER} \
     --restart=always \
