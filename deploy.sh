@@ -3,7 +3,7 @@
 IMG=memory-game
 CONTAINER=memory-game-container
 
-PORT=7000
+PORT=9100
 
 yarn build
 docker build -t ${IMG} .
